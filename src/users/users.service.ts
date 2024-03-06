@@ -24,16 +24,16 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const newUser: User = {
+    const user: User = new User({
       id: uuidv4(),
       login: createUserDto.login,
       password: createUserDto.password,
       version: 0,
       createdAt: Date.now(),
       updatedAt: Date.now(),
-    };
-    users.push(newUser);
-    return newUser;
+    });
+    users.push(user);
+    return user;
   }
 
   async updatePassword(id: string, updatePasswordDto: UpdatePasswordDto): Promise<User> {

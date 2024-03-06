@@ -6,12 +6,16 @@ import {
   Delete,
   Param,
   Body,
-  ParseUUIDPipe, HttpCode,
+  ParseUUIDPipe,
+  HttpCode,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdatePasswordDto } from './dto/users.dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
