@@ -28,7 +28,7 @@ export class UsersService {
       id: uuidv4(),
       login: createUserDto.login,
       password: createUserDto.password,
-      version: 0,
+      version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
