@@ -8,9 +8,9 @@ import {
   Body,
   ParseUUIDPipe, HttpCode,
 } from '@nestjs/common';
-import { User } from './user.interface';
+import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdatePasswordDto } from './users.dto';
+import { CreateUserDto, UpdatePasswordDto } from './dto/users.dto';
 
 @Controller('user')
 export class UsersController {

@@ -4,9 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { User } from './user.interface';
+import { User } from './interfaces/user.interface';
 import { users } from '../../db/users';
-import { CreateUserDto, UpdatePasswordDto } from './users.dto';
+import { CreateUserDto, UpdatePasswordDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
