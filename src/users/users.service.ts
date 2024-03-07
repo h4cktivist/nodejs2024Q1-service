@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from './interfaces/user.interface';
-import { users } from '../../db/users';
+import { users } from '../../db/db';
 import { CreateUserDto, UpdatePasswordDto } from './dto/users.dto';
 
 @Injectable()
