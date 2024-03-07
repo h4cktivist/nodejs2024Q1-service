@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Artist } from './interfaces/artists.interface';
-import { artists } from '../../db/db';
+import { artists, albums } from '../../db/db';
 import { CreateUpdateArtistDto } from './dto/artists.dto';
+import { Album } from '../albums/interfaces/albums.interface';
 
 @Injectable()
 export class ArtistsService {
@@ -42,6 +43,10 @@ export class ArtistsService {
   async delete(id: string) {
     const artistIndex: number = artists.findIndex((a) => a.id === id);
     if (artistIndex !== -1) {
+      const refAlbum: Album | undefined = albums.find(
+        (a) => a.artistId === artists[artistIndex].id,
+      );
+      if (refAlbum) refAlbum.artistId = null;
       artists.splice(artistIndex, 1);
     } else {
       throw new NotFoundException('Artist is not found');
