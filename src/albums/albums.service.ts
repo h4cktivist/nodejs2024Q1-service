@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Album } from './interfaces/albums.interface';
-import { albums, tracks } from '../../db/db';
+import { albums, favorites, tracks } from '../../db/db';
 import { CreateUpdateAlbumDto } from './dto/albums.dto';
 import { Track } from '../tracks/interfaces/tracks.interface';
 
@@ -52,7 +52,11 @@ export class AlbumsService {
       const refTrack: Track | undefined = tracks.find(
         (t) => t.albumId === albums[albumIndex].id,
       );
+      const favIdIndex: number = favorites.albums.findIndex(
+        (id) => id === albums[albumIndex].id,
+      );
       if (refTrack) refTrack.albumId = null;
+      if (favIdIndex) favorites.albums.splice(favIdIndex, 1);
       albums.splice(albumIndex, 1);
     } else {
       throw new NotFoundException('Album is not found');

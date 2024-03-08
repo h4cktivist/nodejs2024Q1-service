@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Track } from './interfaces/tracks.interface';
-import { tracks } from '../../db/db';
+import { favorites, tracks } from '../../db/db';
 import { CreateUpdateTrackDto } from './dto/tracks.dto';
 
 @Injectable()
@@ -47,6 +47,10 @@ export class TracksService {
   async delete(id: string) {
     const trackIndex: number = tracks.findIndex((t) => t.id === id);
     if (trackIndex !== -1) {
+      const favIdIndex: number = favorites.tracks.findIndex(
+        (id) => id === tracks[trackIndex].id,
+      );
+      if (favIdIndex !== -1) favorites.tracks.splice(favIdIndex, 1);
       tracks.splice(trackIndex, 1);
     } else {
       throw new NotFoundException('Track is not found');

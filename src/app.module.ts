@@ -14,6 +14,9 @@ import { AlbumsService } from './albums/albums.service';
 import { TracksModule } from './tracks/tracks.module';
 import { TracksController } from './tracks/tracks.controller';
 import { TracksService } from './tracks/tracks.service';
+import { FavsModule } from './favs/favs.module';
+import { FavsController } from './favs/favs.controller';
+import { FavsService } from './favs/favs.service';
 
 @Module({
   imports: [
@@ -22,6 +25,7 @@ import { TracksService } from './tracks/tracks.service';
     ArtistsModule,
     AlbumsModule,
     TracksModule,
+    FavsModule,
   ],
   controllers: [
     AppController,
@@ -29,6 +33,7 @@ import { TracksService } from './tracks/tracks.service';
     ArtistsController,
     AlbumsController,
     TracksController,
+    FavsController,
   ],
   providers: [
     AppService,
@@ -36,6 +41,7 @@ import { TracksService } from './tracks/tracks.service';
     ArtistsService,
     AlbumsService,
     TracksService,
+    FavsService,
   ],
 })
 export class AppModule {}
