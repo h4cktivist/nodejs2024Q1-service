@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Artist } from './interfaces/artists.interface';
-import { artists, albums } from '../../db/db';
+import { artists, albums, tracks } from '../../db/db';
 import { CreateUpdateArtistDto } from './dto/artists.dto';
 import { Album } from '../albums/interfaces/albums.interface';
+import { Track } from '../tracks/interfaces/tracks.interface';
 
 @Injectable()
 export class ArtistsService {
@@ -46,7 +47,11 @@ export class ArtistsService {
       const refAlbum: Album | undefined = albums.find(
         (a) => a.artistId === artists[artistIndex].id,
       );
+      const refTrack: Track | undefined = tracks.find(
+        (t) => t.artistId === artists[artistIndex].id,
+      );
       if (refAlbum) refAlbum.artistId = null;
+      if (refTrack) refTrack.artistId = null;
       artists.splice(artistIndex, 1);
     } else {
       throw new NotFoundException('Artist is not found');
