@@ -1,9 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Track } from './interfaces/tracks.interface';
-import { artists, tracks } from '../../db/db';
-import { CreateUpdateArtistDto } from '../artists/dto/artists.dto';
-import { Artist } from '../artists/interfaces/artists.interface';
+import { tracks } from '../../db/db';
 import { CreateUpdateTrackDto } from './dto/tracks.dto';
 
 @Injectable()
