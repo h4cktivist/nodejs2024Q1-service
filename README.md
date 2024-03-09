@@ -8,7 +8,7 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/h4cktivist/nodejs2024Q1-service.git
 ```
 
 ## Installing NPM modules
@@ -19,13 +19,96 @@ npm install
 
 ## Running application
 
+In the root directory create a file named .env and declare the PORT variable there. For example:
+
+```
+PORT=4000
+```
+
+Then use:
+
 ```
 npm start
 ```
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
+The server will run on http://localhost:PORT 
+
+## Endpoints
+
+### Users
+
+* `GET /user` - get all users
+* `GET /user/:id` - get single user by `id`
+* `POST /user` - create user. Body is required:
+  ```json
+  {
+    "login": string,
+    "password": string
+  }
+  ```
+* `PUT /user/:id` - update user's password. Body is required:
+    ```json
+    {
+      "oldPassword": string,
+      "newPassword": string
+    }
+    ```
+* `DELETE /user/:id` - delete user
+
+### Artists
+
+* `GET /artist` - get all artists
+* `GET /artist/:id` - get single artist by `id`
+* `POST /artist` - create artist. Body is required:
+  ```json
+  {
+    "login": string,
+    "grammy": boolean
+  }
+  ```
+* `PUT /artist/:id` - update artist. The same body as in POST is required
+* `DELETE /artist/:id` - delete artist
+
+### Albums
+
+* `GET /album` - get all albums
+* `GET /album/:id` - get single album by `id`
+* `POST /album` - create album. Body is required:
+  ```json
+  {
+    "name": string,
+    "year": number,
+    "artistId": string | null // refers to Artist
+  }
+  ```
+* `PUT /album/:id` - update album. The same body as in POST is required
+* `DELETE /album/:id` - album artist
+
+### Tracks
+
+* `GET /track` - get all tracks
+* `GET /track/:id` - get single track by `id`
+* `POST /track` - create track. Body is required:
+  ```json
+  {
+    "name": string,
+    "artistId": string | null // refers to Artist
+    "albumId": string | null // refers to Album
+    "duration": integer
+  }
+  ```
+* `PUT /track/:id` - update track. The same body as in POST is required
+* `DELETE /track/:id` - album track
+
+### Favorites
+
+* `GET /favs` - get all favorites
+* `POST /favs/track/:id` - add track to the favorites by its `id`
+* `DELETE /favs/track/:id` - delete track from favorites
+* `POST /favs/album/:id` - add album to the favorites by its `id`
+* `DELETE /favs/album/:id` - delete album from favorites
+* `POST /favs/artist/:id` - add artist to the favorites by its `id`
+* `DELETE /favs/artist/:id` - delete artist from favorites
 
 ## Testing
 
@@ -54,19 +137,3 @@ To run only specific test suite with authorization
 ```
 npm run test:auth -- <path to suite>
 ```
-
-### Auto-fix and format
-
-```
-npm run lint
-```
-
-```
-npm run format
-```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
