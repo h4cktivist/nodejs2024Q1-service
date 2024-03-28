@@ -17,6 +17,9 @@ import { TracksService } from './tracks/tracks.service';
 import { FavsModule } from './favs/favs.module';
 import { FavsController } from './favs/favs.controller';
 import { FavsService } from './favs/favs.service';
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { FavsService } from './favs/favs.service';
     AlbumsModule,
     TracksModule,
     FavsModule,
+    AuthModule,
   ],
   controllers: [
     AppController,
@@ -34,6 +38,7 @@ import { FavsService } from './favs/favs.service';
     AlbumsController,
     TracksController,
     FavsController,
+    AuthController,
   ],
   providers: [
     AppService,
@@ -42,6 +47,7 @@ import { FavsService } from './favs/favs.service';
     AlbumsService,
     TracksService,
     FavsService,
+    AuthService,
   ],
 })
 export class AppModule {}
