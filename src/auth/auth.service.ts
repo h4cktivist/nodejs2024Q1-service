@@ -14,7 +14,7 @@ export class AuthService {
 
   async signIn(login: string, password: string) {
     const user: User | undefined = users.find((u) => u.login === login);
-    if (!bcrypt.compareSync(password, user?.password)) {
+    if (!user || !bcrypt.compareSync(password, user?.password)) {
       throw new ForbiddenException(
         'User is not found or password is incorrect!',
       );
