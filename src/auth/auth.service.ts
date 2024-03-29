@@ -10,10 +10,7 @@ dotenv.config();
 export class AuthService {
   constructor(private jwtService: JwtService) {}
 
-  async signIn(
-    login: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
+  async signIn(login: string, password: string) {
     const user: User | undefined = users.find((u) => u.login === login);
     if (user?.password !== password) {
       throw new ForbiddenException(
@@ -21,9 +18,11 @@ export class AuthService {
       );
     }
 
-    const payload = { sub: user.id, username: user.login };
+    const payload = { userId: user.id, login: user.login };
     return {
-      access_token: await this.jwtService.signAsync(payload, {
+      userId: user.id,
+      login: user.login,
+      accessToken: await this.jwtService.signAsync(payload, {
         secret: 'secret123123',
         expiresIn: '60s',
       }),
