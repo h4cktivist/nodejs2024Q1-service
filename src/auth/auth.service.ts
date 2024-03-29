@@ -2,13 +2,14 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/interfaces/user.interface';
 import { users } from '../../db/db';
-import * as dotenv from 'dotenv';
-import process from 'process';
-dotenv.config();
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async signIn(login: string, password: string) {
     const user: User | undefined = users.find((u) => u.login === login);
@@ -23,7 +24,7 @@ export class AuthService {
       userId: user.id,
       login: user.login,
       accessToken: await this.jwtService.signAsync(payload, {
-        secret: 'secret123123',
+        secret: this.configService.get<string>('JWT_SECRET_KEY'),
         expiresIn: '60s',
       }),
     };

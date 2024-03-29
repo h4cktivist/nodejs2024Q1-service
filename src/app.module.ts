@@ -21,10 +21,14 @@ import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import config from './config/configuration';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [config],
+      isGlobal: true,
+    }),
     UsersModule,
     ArtistsModule,
     AlbumsModule,
