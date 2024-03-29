@@ -20,6 +20,7 @@ import { FavsService } from './favs/favs.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthService } from './auth/auth.service';
     TracksModule,
     FavsModule,
     AuthModule,
+    JwtModule,
   ],
   controllers: [
     AppController,
@@ -48,6 +50,7 @@ import { AuthService } from './auth/auth.service';
     TracksService,
     FavsService,
     AuthService,
+    JwtService,
   ],
 })
 export class AppModule {}
