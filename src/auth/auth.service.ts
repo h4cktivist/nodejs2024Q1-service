@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/interfaces/user.interface';
 import { users } from '../../db/db';
 import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
 
   async signIn(login: string, password: string) {
     const user: User | undefined = users.find((u) => u.login === login);
-    if (user?.password !== password) {
+    if (!bcrypt.compareSync(password, user?.password)) {
       throw new ForbiddenException(
         'User is not found or password is incorrect!',
       );

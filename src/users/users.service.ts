@@ -7,9 +7,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { User } from './interfaces/user.interface';
 import { users } from '../../db/db';
 import { CreateUserDto, UpdatePasswordDto } from './dto/users.dto';
+import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
+  constructor(private readonly configService: ConfigService) {}
+
   findAll(): User[] {
     return users;
   }
@@ -24,10 +28,15 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    const salt: number = parseInt(this.configService.get('CRYPT_SALT'));
+    const hashedPassword: string = bcrypt.hashSync(
+      createUserDto.password,
+      salt,
+    );
     const user: User = new User({
       id: uuidv4(),
       login: createUserDto.login,
-      password: createUserDto.password,
+      password: hashedPassword,
       version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -39,8 +48,13 @@ export class UsersService {
   async updatePassword(id: string, updatePasswordDto: UpdatePasswordDto): Promise<User> {
     const user: User | undefined = users.find((u) => u.id === id);
     if (user) {
-      if (user.password === updatePasswordDto.oldPassword) {
-        user.password = updatePasswordDto.newPassword;
+      if (await bcrypt.compare(updatePasswordDto.oldPassword, user.password)) {
+        const salt: number = parseInt(this.configService.get('CRYPT_SALT'));
+        const hashedPassword: string = bcrypt.hashSync(
+          updatePasswordDto.newPassword,
+          salt,
+        );
+        user.password = hashedPassword;
         user.version += 1;
         user.updatedAt = Date.now();
         return user;
