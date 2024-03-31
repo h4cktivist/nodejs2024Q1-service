@@ -21,7 +21,9 @@ import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { LoggingModule } from './logging/logging.module';
 import config from './config/configuration';
+import { CustomLogger } from './logging/logging.service';
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import config from './config/configuration';
     FavsModule,
     AuthModule,
     JwtModule,
+    LoggingModule,
   ],
   controllers: [
     AppController,
@@ -55,6 +58,7 @@ import config from './config/configuration';
     FavsService,
     AuthService,
     JwtService,
+    CustomLogger,
   ],
 })
 export class AppModule {}
