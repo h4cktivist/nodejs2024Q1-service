@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from './interfaces/user.interface';
 import { users } from '../../db/db';
@@ -50,11 +46,7 @@ export class UsersService {
     if (user) {
       if (await bcrypt.compare(updatePasswordDto.oldPassword, user.password)) {
         const salt: number = parseInt(this.configService.get('CRYPT_SALT'));
-        const hashedPassword: string = bcrypt.hashSync(
-          updatePasswordDto.newPassword,
-          salt,
-        );
-        user.password = hashedPassword;
+        user.password = bcrypt.hashSync(updatePasswordDto.newPassword, salt);
         user.version += 1;
         user.updatedAt = Date.now();
         return user;
