@@ -17,15 +17,28 @@ import { TracksService } from './tracks/tracks.service';
 import { FavsModule } from './favs/favs.module';
 import { FavsController } from './favs/favs.controller';
 import { FavsService } from './favs/favs.service';
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { LoggingModule } from './logging/logging.module';
+import config from './config/configuration';
+import { CustomLogger } from './logging/logging.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [config],
+      isGlobal: true,
+    }),
     UsersModule,
     ArtistsModule,
     AlbumsModule,
     TracksModule,
     FavsModule,
+    AuthModule,
+    JwtModule,
+    LoggingModule,
   ],
   controllers: [
     AppController,
@@ -34,6 +47,7 @@ import { FavsService } from './favs/favs.service';
     AlbumsController,
     TracksController,
     FavsController,
+    AuthController,
   ],
   providers: [
     AppService,
@@ -42,6 +56,9 @@ import { FavsService } from './favs/favs.service';
     AlbumsService,
     TracksService,
     FavsService,
+    AuthService,
+    JwtService,
+    CustomLogger,
   ],
 })
 export class AppModule {}
